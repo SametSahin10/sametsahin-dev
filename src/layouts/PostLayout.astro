@@ -1,0 +1,45 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import { formatDate } from "../lib/content";
+
+type Props = {
+  title: string;
+  excerpt: string;
+  date: Date;
+  category: "Tech" | "Life";
+  meta?: string;
+  cover?: any;
+  coverAlt?: string;
+};
+
+const { title, excerpt, date, category, meta, cover, coverAlt } = Astro.props;
+---
+
+<BaseLayout title={`${title} | sametsahin.dev`} description={excerpt}>
+  <article class="mx-auto max-w-3xl pb-12">
+    <div class="rounded-[2.5rem] border border-[var(--border)] bg-[var(--surface)] px-6 py-8 md:px-10 md:py-12">
+      <div class="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.24em] text-[var(--muted)]">
+        <span>{category}</span>
+        <span>{formatDate(date)}</span>
+        {meta && <span>{meta}</span>}
+      </div>
+      <h1 class="mt-6 font-display text-4xl leading-none text-[var(--text)] md:text-6xl">
+        {title}
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-8 text-[var(--muted-strong)] md:text-lg">
+        {excerpt}
+      </p>
+      {cover && (
+        <div class="mt-8 overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface-strong)]">
+          <Image class="h-auto w-full object-contain" src={cover} alt={coverAlt ?? title} />
+        </div>
+      )}
+    </div>
+    <div class="prose-shell mt-8 rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] px-6 py-8 md:px-10 md:py-12">
+      <div class="prose prose-stone max-w-none dark:prose-invert">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

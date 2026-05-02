@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { formatDate, getEntryHref, type CollectionName } from "../lib/content";
+
+type Props = {
+  entry: CollectionEntry<CollectionName>;
+  variant?: "default" | "compact";
+};
+
+const { entry, variant = "default" } = Astro.props;
+const href = getEntryHref(entry);
+const isTech = entry.collection === "tech";
+const displayTitle = entry.data.cardTitle ?? entry.data.title;
+---
+
+<article class:list={[
+  "group relative rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] transition duration-300 hover:-translate-y-1 hover:border-[var(--border-strong)] hover:bg-[var(--surface-strong)]",
+  variant === "compact" ? "p-5" : "p-6 md:p-8",
+]}>
+  {entry.data.cover && variant === "default" && (
+    <a class="mb-5 block overflow-hidden rounded-[1.5rem]" href={href}>
+      <Image
+        class="aspect-[16/9] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+        src={entry.data.cover}
+        alt={entry.data.coverAlt ?? displayTitle}
+      />
+    </a>
+  )}
+  <div class="flex items-center justify-between gap-4 text-xs uppercase tracking-[0.24em] text-[var(--muted)]">
+    <span>{isTech ? "Engineering" : "Life"}</span>
+    <span>{formatDate(entry.data.date)}</span>
+  </div>
+  <h3 class="mt-5 font-display text-2xl leading-tight text-[var(--text)] md:text-3xl">
+    <a class="outline-none after:absolute after:inset-0" href={href}>{displayTitle}</a>
+  </h3>
+  <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted-strong)] md:text-base">
+    {entry.data.excerpt}
+  </p>
+  <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-[var(--muted)]">
+    {isTech && entry.data.tags.length > 0 ? (
+      entry.data.tags.map((tag) => (
+        <span class="rounded-full border border-[var(--border)] px-3 py-1">{tag}</span>
+      ))
+    ) : entry.collection === "life" && entry.data.location ? (
+      <span class="rounded-full border border-[var(--border)] px-3 py-1">
+        {entry.data.location}
+      </span>
+    ) : (
+      <span>Open entry</span>
+    )}
+  </div>
+</article>

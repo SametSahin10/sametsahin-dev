@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --page: oklch(0.96 0.015 80);
+  --surface: color-mix(in srgb, white 82%, transparent);
+  --surface-strong: color-mix(in srgb, white 92%, transparent);
+  --text: oklch(0.24 0.02 55);
+  --muted-strong: oklch(0.41 0.024 50);
+  --muted: oklch(0.56 0.018 60);
+  --border: color-mix(in srgb, oklch(0.5 0.02 60) 18%, transparent);
+  --border-strong: color-mix(in srgb, oklch(0.34 0.02 55) 30%, transparent);
+  --accent-soft: color-mix(in srgb, oklch(0.72 0.08 70) 35%, transparent);
+  --accent-softer: color-mix(in srgb, oklch(0.82 0.05 150) 42%, transparent);
+  --nav-active: oklch(0.985 0.01 80);
+  --nav-active-border: color-mix(in srgb, oklch(0.34 0.02 55) 18%, transparent);
+}
+
+:root.dark {
+  --page: oklch(0.18 0.015 60);
+  --surface: color-mix(in srgb, oklch(0.24 0.018 58) 86%, transparent);
+  --surface-strong: color-mix(in srgb, oklch(0.28 0.018 55) 94%, transparent);
+  --text: oklch(0.93 0.012 80);
+  --muted-strong: oklch(0.77 0.014 70);
+  --muted: oklch(0.62 0.012 70);
+  --border: color-mix(in srgb, oklch(0.85 0.01 80) 12%, transparent);
+  --border-strong: color-mix(in srgb, oklch(0.9 0.01 85) 22%, transparent);
+  --accent-soft: color-mix(in srgb, oklch(0.72 0.07 80) 18%, transparent);
+  --accent-softer: color-mix(in srgb, oklch(0.65 0.06 160) 16%, transparent);
+  --nav-active: color-mix(in srgb, oklch(0.9 0.01 85) 10%, var(--surface-strong));
+  --nav-active-border: color-mix(in srgb, oklch(0.9 0.01 85) 18%, transparent);
+}
+
+@theme {
+  --font-display: "Fraunces Variable", serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+}
+
+html {
+  background: var(--page);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+main section + section {
+  margin-top: 0.5rem;
+}
+
+a,
+button {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  background-image:
+    linear-gradient(to right, transparent, rgba(255, 255, 255, 0.04), transparent),
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 30%, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px),
+    radial-gradient(circle at 50% 80%, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px);
+  background-size: 100% 100%, 18px 18px, 22px 22px, 26px 26px;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.hero-orb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent-soft) 70%, transparent), transparent 28%),
+    radial-gradient(circle at 70% 72%, color-mix(in srgb, var(--accent-softer) 60%, transparent), transparent 30%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, white 55%, transparent), transparent 42%);
+  opacity: 0.9;
+}
+
+.prose-shell :where(article, .prose) {
+  max-width: none;
+}
+
+.prose-shell :where(h2, h3, h4) {
+  font-family: var(--font-display);
+  color: var(--text);
+}
+
+.prose-shell :where(p, li, blockquote) {
+  color: var(--muted-strong);
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.prose-shell :where(a) {
+  color: var(--text);
+  text-decoration-color: var(--border-strong);
+}
+
+.prose-shell :where(pre) {
+  border-radius: 1.5rem;
+  padding: 1.25rem !important;
+}
+
+.prose-shell :where(img) {
+  width: 100%;
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+}
+
+.prose-shell :where(figure) {
+  margin-block: 2rem;
+}
+
+.prose-shell :where(figcaption) {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.prose-shell :where(code:not(pre code)) {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.15rem 0.4rem;
+  background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
+  color: var(--text);
+}
