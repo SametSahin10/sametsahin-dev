@@ -19,7 +19,13 @@ const displayTitle = entry.data.cardTitle ?? entry.data.title;
   variant === "compact" ? "p-5" : "p-6 md:p-8",
 ]}>
   {entry.data.cover && variant === "default" && (
-    <a class="mb-5 block overflow-hidden rounded-[1.5rem]" href={href}>
+    <a
+      class="mb-5 block overflow-hidden rounded-[1.5rem]"
+      href={href}
+      data-analytics-event="post_open"
+      data-analytics-label={displayTitle}
+      data-analytics-location="post_card_cover"
+    >
       <Image
         class="aspect-[16/9] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
         src={entry.data.cover}
@@ -32,7 +38,15 @@ const displayTitle = entry.data.cardTitle ?? entry.data.title;
     <span>{formatDate(entry.data.date)}</span>
   </div>
   <h3 class="mt-5 font-display text-2xl leading-tight text-[var(--text)] md:text-3xl">
-    <a class="outline-none after:absolute after:inset-0" href={href}>{displayTitle}</a>
+    <a
+      class="outline-none after:absolute after:inset-0"
+      href={href}
+      data-analytics-event="post_open"
+      data-analytics-label={displayTitle}
+      data-analytics-location={`post_card_${variant}`}
+    >
+      {displayTitle}
+    </a>
   </h3>
   <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted-strong)] md:text-base">
     {entry.data.excerpt}

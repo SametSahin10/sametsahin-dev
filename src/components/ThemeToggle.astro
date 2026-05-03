@@ -44,6 +44,9 @@
     const next = root.classList.contains("dark") ? "light" : "dark";
     localStorage.setItem(storageKey, next);
     applyTheme(next);
+    window.trackSiteEvent?.("theme_change", {
+      theme: next,
+    });
   });
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
